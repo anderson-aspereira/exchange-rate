@@ -20,7 +20,6 @@ public class ExchangeRateHistory {
 	private Integer id;
 	private String code;
 	private String codein;
-	private String name;
 	private Double currentValue;
 	private LocalDateTime date;
 	private LocalDateTime createDate;

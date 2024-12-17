@@ -1,5 +1,6 @@
 package exchange.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,9 +8,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import exchange.domain.ExchangeRate;
 import exchange.domain.ExchangeRateHistory;
 import exchange.domain.dto.ExchangeRateHistoryDTO;
 import exchange.repositories.ExchangeRateHistoryRepository;
+import exchange.repositories.ExchangeRateRepository;
 import exchange.services.ExchangeRateHistoryService;
 import exchange.services.exceptions.ObjectNotFoundException;
 
@@ -18,6 +21,9 @@ public class ExchangeRateHistoryServiceImpl implements ExchangeRateHistoryServic
 
 	@Autowired 
 	ExchangeRateHistoryRepository repository;
+	
+	@Autowired 
+	ExchangeRateRepository exchangeRateRepository;
 	
     @Autowired
     private ModelMapper mapper;
@@ -51,6 +57,22 @@ public class ExchangeRateHistoryServiceImpl implements ExchangeRateHistoryServic
         findById(id);
         repository.deleteById(id);
     }
+
+
+    
+	@Override
+	public List<ExchangeRateHistory> findAllHistoryByIdExchangeRate(Integer id) {
+		List<ExchangeRateHistory> listExchangeRateHistory = new ArrayList<ExchangeRateHistory>();
+		
+		Optional<ExchangeRate>  exchangeRate  = exchangeRateRepository.findById(id);
+		
+		if(exchangeRate.isPresent()) {
+			
+			listExchangeRateHistory = repository.findByCode(exchangeRate.get().getCode(), exchangeRate.get().getCodein());
+		}
+		
+		return listExchangeRateHistory;
+	}
 
 
 }

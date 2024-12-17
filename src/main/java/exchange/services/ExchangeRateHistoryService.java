@@ -9,6 +9,7 @@ import exchange.domain.dto.ExchangeRateHistoryDTO;
 
 public interface ExchangeRateHistoryService {
 	
+	public List<ExchangeRateHistory> findAllHistoryByIdExchangeRate(Integer id);
 	public ExchangeRateHistory findById(Integer id);
 	public  List<ExchangeRateHistory> findAll();
 	public ExchangeRateHistory create(ExchangeRateHistoryDTO obj);

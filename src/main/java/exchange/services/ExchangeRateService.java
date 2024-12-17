@@ -13,6 +13,7 @@ public interface ExchangeRateService {
 	public  List<ExchangeRate> findAll();
 	public ExchangeRate create(ExchangeRateDTO obj);
 	public ExchangeRate update(ExchangeRateDTO obj);
+	public  void updateAll();
 	public  void delete(Integer id);
 
 }
