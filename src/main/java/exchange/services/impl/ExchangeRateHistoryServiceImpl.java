@@ -43,12 +43,12 @@ public class ExchangeRateHistoryServiceImpl implements ExchangeRateHistoryServic
     }
 
     @Override
-    public ExchangeRateHistory create(ExchangeRateHistoryDTO obj) {
+    public ExchangeRateHistory create(ExchangeRateHistory obj) {
     	return repository.save(mapper.map(obj, ExchangeRateHistory.class));
     }
 
     @Override
-    public ExchangeRateHistory update(ExchangeRateHistoryDTO obj) {
+    public ExchangeRateHistory update(ExchangeRateHistory obj) {
     	return repository.save(mapper.map(obj, ExchangeRateHistory.class));
     }
 

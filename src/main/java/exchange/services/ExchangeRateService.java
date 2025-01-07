@@ -11,9 +11,11 @@ public interface ExchangeRateService {
 	
 	public ExchangeRate findById(Integer id);
 	public  List<ExchangeRate> findAll();
+	public  List<ExchangeRate> findListByCodeIn(String codeCoin);
 	public ExchangeRate create(ExchangeRateDTO obj);
 	public ExchangeRate update(ExchangeRateDTO obj);
 	public  void updateAll();
 	public  void delete(Integer id);
+	
 
 }

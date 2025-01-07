@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import exchange.domain.ExchangeRate;
 import exchange.domain.dto.ExchangeRateDTO;
 import exchange.services.ExchangeRateService;
+import exchange.services.UpdateExchangeRateService;
+import exchange.services.factory.UpdateExchangeRateFactory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,6 +35,16 @@ public class ExchangeRateController {
 
 	@Autowired
 	ExchangeRateService exchangeRateService;
+	
+	
+	private final UpdateExchangeRateFactory updateExchangeRateFactory;
+	
+	@Autowired
+	public ExchangeRateController(UpdateExchangeRateFactory updateExchangeRateFactory) {
+		this.updateExchangeRateFactory = updateExchangeRateFactory;
+	}
+
+
 	
 	@Autowired
 	private ModelMapper mapper;
@@ -54,10 +67,10 @@ public class ExchangeRateController {
 					@Content(schema = @Schema(implementation = ExchangeRate.class), mediaType = "application/json") }),
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@GetMapping
-	public ResponseEntity<List<ExchangeRateDTO>> findAll() {
+	public ResponseEntity<List<ExchangeRateDTO>> findAll(@RequestParam String code) {
 		System.out.println("Start");
 		return ResponseEntity.ok().body(
-				exchangeRateService.findAll().stream().map(x -> mapper.map(x, ExchangeRateDTO.class)).collect(Collectors.toList()));
+				exchangeRateService.findListByCodeIn(code).stream().map(x -> mapper.map(x, ExchangeRateDTO.class)).collect(Collectors.toList()));
 	}
 
 	 @Operation(summary = "Create a new ExchangeRate", tags = { "exchangeRate", "post" })
@@ -100,9 +113,10 @@ public class ExchangeRateController {
 	          @Content(schema = @Schema(implementation = ExchangeRate.class), mediaType = "application/json") }),
 	      @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@PutMapping("updateAll")
-	public ResponseEntity<ExchangeRateDTO> updateAll() {
-		 exchangeRateService.updateAll();
-		return ResponseEntity.ok().build();
-	}
+		public ResponseEntity<ExchangeRateDTO> updateAll(@RequestParam String code) {
+			UpdateExchangeRateService updateExchangeRateService = updateExchangeRateFactory.createExchangeRate(code);
+			updateExchangeRateService.updateAll();
+			return ResponseEntity.ok().build();
+		}
 
 }

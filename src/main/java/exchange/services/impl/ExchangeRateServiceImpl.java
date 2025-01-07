@@ -57,6 +57,11 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 	public List<ExchangeRate> findAll() {
         return repository.findAll();
     }
+	
+	@Override
+	public List<ExchangeRate> findListByCodeIn(String codeCoin) {
+	    return repository.findListByCodeIn(codeCoin);
+	}
 
     @Override
     public ExchangeRate create(ExchangeRateDTO obj) {
@@ -131,4 +136,8 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 		return exchangeRateExternalMap;
 		
 	}
+
+
+
+	
 }
